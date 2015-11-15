@@ -5,7 +5,7 @@ install:
 	chmod 755 /usr/local/bin/ssh-ca
 
 clean:
-	echo Not implemented.
+	rm -rf CA CA.pub
 
 test: clean
 	echo Not implemented.
