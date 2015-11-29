@@ -22,20 +22,15 @@ To start a new certificate authority::
 
 To sign a user's public key::
 
-    ssh-ca signuser username.pub
+    ssh-ca signuser username
 
 To sign a hosts's public key::
 
-    ssh-ca signhost hostname.pub
+    ssh-ca signhost hostname
 
 To generate a new keypair for a host with a signed public key::
 
     ssh-ca newhost host.domain.tld
-
-To resign all public keys (this will overwrite existing signed public keys)::
-
-    ssh-ca resign
-
 
 Deployment
 ----------
@@ -64,6 +59,5 @@ at: https://www.shore.co.il/cgit/.
 TODO
 ----
 
-- Implement.
-- Testing.
+- Test by starting sshd on localhost with a high port and connecting to it.
 - Document deployment.
