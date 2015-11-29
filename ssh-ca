@@ -7,20 +7,31 @@ usage () {
 }
 
 init () {
+    echo Initializing new CA.
     mkdir -p hosts users
-    ssh-keygen -qf CA -P /dev/null
+    ssh-keygen -qf CA -P "" -C ssh-ca
 }
 
 signuser () {
-    echo Not implemented.
+    echo "Signing user $1 key."
+    ssh-keygen -s CA -I "$1" -n "$1" "users/$1.pub"
 }
 
 signhost () {
-    echo Not implemented.
+    echo "Signing host $1 key."
+    ssh-keygen -s CA -I "$1" -h -n "$1" "hosts/$1.pub"
 }
 
 newhost () {
-    echo Not implemented.
+    echo "Creating new host $1 keypair."
+    ssh-keygen -qf "hosts/$1" -P "" -C "$1"
+    signhost "$1"
+}
+
+newuser () {
+    echo "Creating new user $1 keypair."
+    ssh-keygen -qf "users/$1" -P "" -C "$1"
+    signuser "$1"
 }
 
 if [ $# -lt 1 ]
@@ -41,6 +52,9 @@ case "$1" in
         ;;
     newhost)
         newhost "$2"
+        ;;
+    newuser)
+        newuser "$2"
         ;;
     *)
         usage

@@ -5,7 +5,9 @@ install:
 	chmod 755 /usr/local/bin/ssh-ca
 
 clean:
-	rm -rf CA CA.pub
+	rm -rf CA CA.pub users hosts
 
 test: clean
-	echo Not implemented.
+	./ssh-ca init
+	./ssh-ca newuser john
+	./ssh-ca newhost www
