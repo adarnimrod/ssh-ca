@@ -30,12 +30,42 @@ To sign a hosts's public key::
 
 To generate a new keypair for a host with a signed public key::
 
-    ssh-ca newhost host.domain.tld
+    ssh-ca newhost hostname
 
-Deployment
-----------
+To generate a new keypair for a user with a signed public key::
 
-<placeholder>
+    ssh-ca newuser username
+
+Authenticating hosts
+--------------------
+
+#. Sign the server's public key or generate a new pair and copy the files over.
+#. Add the following line to `/etc/ssh/sshd_config`::
+
+    HostCertificate /path/to/the/signed/public/key
+
+#. Add a line to your `known_hosts` file to authorize signed public keys to a
+specific top level domain. For example if your domain is example.com and the
+contents of `CA.pub` is::
+
+    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC2fAkeidfnPn712B4uW3XhKyFt9FcJtVwSPKDSCykULg3X5gVV/Xa1yb4ameY3ihXOqQOlG3YpYnOQ8KdM67WtnERVbTJIfieRjGzoURz9NquLFXSKsuQrXMWRNHqXAHw7VirPvKL4cSc4l00Az1HDnHhMIclPY8G+8SkRIRsTwwwa5QjGF2wuhC6j5UHJSaF7qLFw9FSaCsEJTkQxtCD4+Rd/dxv3kVWSkm5DbNG0z3QHyISW7XDvyXP+1ccSb5+IWC0yQCT4OJNFUMDb+SdD7AzDHfI9Z5zTp56uGV23lywWhSvv20UPA0SyXJNGPOw7uJ1ak8q4SBh60PtOENQf ssh-ca
+
+Then the line will be::
+
+    @cert-authority *.example.com ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC2fAkeidfnPn712B4uW3XhKyFt9FcJtVwSPKDSCykULg3X5gVV/Xa1yb4ameY3ihXOqQOlG3YpYnOQ8KdM67WtnERVbTJIfieRjGzoURz9NquLFXSKsuQrXMWRNHqXAHw7VirPvKL4cSc4l00Az1HDnHhMIclPY8G+8SkRIRsTwwwa5QjGF2wuhC6j5UHJSaF7qLFw9FSaCsEJTkQxtCD4+Rd/dxv3kVWSkm5DbNG0z3QHyISW7XDvyXP+1ccSb5+IWC0yQCT4OJNFUMDb+SdD7AzDHfI9Z5zTp56uGV23lywWhSvv20UPA0SyXJNGPOw7uJ1ak8q4SBh60PtOENQf ssh-ca
+
+#. For strict security, add the following line to you `ssh_config` file::
+
+    StrictHostKeyChecking yes
+
+Authenticating users
+--------------------
+
+#. Sign the user's public key or generate a new pair and copy them over.
+#. Copy CA.pub over to the host.
+#. Add the following line to `/etc/ssh/sshd_config`::
+
+    TrustedUserCAKeys /path/to/CA.pub
 
 Development
 -----------
@@ -58,6 +88,3 @@ at: https://www.shore.co.il/cgit/.
 
 TODO
 ----
-
-- Test by starting sshd on localhost with a high port and connecting to it.
-- Document deployment.
