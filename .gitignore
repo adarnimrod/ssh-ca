@@ -6,3 +6,4 @@ CA*
 users/
 hosts/
 .server.pid
+known_hosts

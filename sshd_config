@@ -1,7 +1,7 @@
 ListenAddress 127.0.0.1:22222
 HostKey hosts/localhost
 TrustedUserCAKeys ssh_ca.pub
-HostCertificate hosts/localhost.pub
+HostCertificate hosts/localhost-cert.pub
 Banner "ssh-ca dummy test daemon"
 PasswordAuthentication no
 PermitRootLogin no
