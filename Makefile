@@ -9,5 +9,6 @@ clean:
 
 test: clean
 	./ssh-ca init
-	./ssh-ca newuser john
-	./ssh-ca newhost www
+	./ssh-ca newuser $$USER
+	./ssh-ca newhost localhost
+	$$(which sshd) -dddf sshd_config

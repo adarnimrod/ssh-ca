@@ -1,0 +1,14 @@
+ListenAddress 127.0.0.1:22222
+HostKey hosts/localhost
+TrustedUserCAKeys ssh_ca.pub
+HostCertificate hosts/localhost.pub
+Banner "ssh-ca dummy test daemon"
+PasswordAuthentication no
+PermitRootLogin no
+PidFile .server.pid
+StrictModes no
+UsePrivilegeSeparation no
+UsePAM no
+RSAAuthentication yes
+PubkeyAuthentication yes
+Protocol 2
