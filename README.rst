@@ -93,3 +93,5 @@ at: https://www.shore.co.il/cgit/.
 
 TODO
 ----
+
+- Generating RSA, DSA and ECDSA keys (especially for hosts).
