@@ -14,6 +14,7 @@ install:
 	chmod 755 /usr/local/bin/ssh-ca
 
 clean:
+	if [ -f sshd.pid ] && [ -d "/proc/$$(cat sshd.pid)" ]; then kill "$$(cat sshd.pid)"; fi
 	rm -rf CA CA.pub users hosts known_hosts sshd.pid sshd_config
 
 test: clean sshd_config
@@ -21,6 +22,6 @@ test: clean sshd_config
 	./ssh-ca newuser $$USER
 	./ssh-ca newhost localhost
 	echo "@cert-authority * $$(cat CA.pub)" > known_hosts
-	$$(which sshd) -f sshd_config
+	$$(PATH=$$PATH:/usr/local/sbin:/usr/sbin:/sbin which sshd) -f sshd_config
 	test "$$(ssh -F ssh_config test whoami)" = "$$USER"
 	kill $$(cat sshd.pid)
