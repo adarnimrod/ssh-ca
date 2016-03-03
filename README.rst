@@ -86,8 +86,9 @@ Authenticating users
 Development
 -----------
 
-To ease development :code:`make clean` and :code:`make test` are available.
-It's recommended to add :code:`make test` to your git pre-commit hook.
+To ease development :code:`make clean`, :code:`make lint` and :code:`make test`
+are available. It's recommended to add :code:`make lint`  and :code:`make test`
+to to your Git pre-commit and pre-push hooks accourdingly.
 
 License
 -------

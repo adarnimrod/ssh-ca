@@ -1,4 +1,4 @@
-.PHONY: install clean test
+.PHONY: install clean test lint
 
 
 sshd_config:
@@ -17,7 +17,10 @@ clean:
 	if [ -f sshd.pid ] && [ -d "/proc/$$(cat sshd.pid)" ]; then kill "$$(cat sshd.pid)"; fi
 	rm -rf CA CA.pub users hosts known_hosts sshd.pid sshd_config
 
-test: clean sshd_config
+lint:
+	/bin/sh -en ssh-ca
+
+test: clean sshd_config lint
 	./ssh-ca init
 	./ssh-ca newuser $$USER
 	./ssh-ca newhost localhost
