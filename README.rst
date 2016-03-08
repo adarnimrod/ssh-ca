@@ -93,7 +93,7 @@ to to your Git pre-commit and pre-push hooks accourdingly.
 License
 -------
 
-This software is licnesed under the MIT licese (see the :code:`LICENSE.txt`
+This software is licensed under the MIT license (see the :code:`LICENSE.txt`
 file).
 
 Author
