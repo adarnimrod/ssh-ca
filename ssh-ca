@@ -1,6 +1,7 @@
 #!/bin/sh -e
 test $(which ssh-keygen) || \
     (echo "Can't find ssh-keygen. Is OpenSSH installed properly?"; exit 1)
+local key_types="dsa ecdsa ed25519 rsa"
 
 usage () {
     echo "Usage: $0 init|newuser|newhost"
@@ -24,13 +25,21 @@ signhost () {
 
 newhost () {
     echo "Creating new host $1 keypair."
-    ssh-keygen -qf "hosts/$1" -P "" -C "$1"
+    mkdir -p "hosts/$1"
+    for type in "$key_types"
+    do
+        ssh-keygen -qf "hosts/$1/ssh_host_${type}_key" -P "" -C "$1"
+    done
     signhost "$1"
 }
 
 newuser () {
     echo "Creating new user $1 keypair."
-    ssh-keygen -qf "users/$1" -P "" -C "$1"
+    mkdir -p "users/$1"
+    for type in "$key_types"
+    do
+        ssh-keygen -qf "users/$1/id_${type}" -P "" -C "$1"
+    done
     signuser "$1"
 }
 
