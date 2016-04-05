@@ -2,6 +2,11 @@
 
 USERNAME = $$(whoami)
 
+test: lint clean ssh_config sshd_config CA CA.pub users/$(USERNAME) hosts/localhost known_hosts
+	$$(PATH=$$PATH:/usr/local/sbin:/usr/sbin:/sbin which sshd) -f sshd_config
+	test "$$(ssh -F ssh_config test whoami)" = "$$USER"
+	kill $$(cat sshd.pid)
+
 CA CA.pub users hosts:
 	./ssh-ca init
 
@@ -51,8 +56,3 @@ clean:
 
 lint:
 	/bin/sh -en ssh-ca
-
-test: lint clean ssh_config sshd_config CA CA.pub users/$(USERNAME) hosts/localhost known_hosts
-	$$(PATH=$$PATH:/usr/local/sbin:/usr/sbin:/sbin which sshd) -f sshd_config
-	test "$$(ssh -F ssh_config test whoami)" = "$$USER"
-	kill $$(cat sshd.pid)
