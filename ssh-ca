@@ -1,6 +1,13 @@
 #!/bin/sh -e
-test $(which ssh-keygen) || \
-    (echo "Can't find ssh-keygen. Is OpenSSH installed properly?"; exit 1)
+
+error () {
+    echo "$1"
+    exit 1
+}
+
+[ $(which ssh-keygen) ] || \
+    error "Can't find ssh-keygen. Is OpenSSH installed properly?"
+
 local key_types="dsa ecdsa ed25519 rsa"
 
 usage () {
@@ -13,17 +20,44 @@ init () {
     ssh-keygen -qf CA -P "" -C ssh-ca
 }
 
+is_initialized () {
+    if [ ! -r "CA" ] || [ ! -r "CA.pub" ] || [ -d "users" ] || [ -d "hosts" ]
+    then
+        error "Something seems wrong. Did you run $0 init?"
+    fi
+}
+
 signuser () {
-    echo "Signing user $1 key."
-    ssh-keygen -s CA -I "$1" -n "$1" "users/$1.pub"
+    [ -z "$1" ] && error "You must specify username."
+    for type in $key_types
+    do
+        if [ -r "users/$1/id_${type}.pub" ]
+        then
+            echo "Signing user $1 $type key."
+            ssh-keygen -s CA -I "$1" -n "$1" "users/$1/id_${type}.pub"
+            local flag="not empty"
+        fi
+    done
+    [ -z "$flag" ] && echo "Didn't find any public keys for $1."
 }
 
 signhost () {
-    echo "Signing host $1 key."
-    ssh-keygen -s CA -I "$1" -h -n "$1" "hosts/$1.pub"
+    [ -z "$1" ] && error "You must specify hostname."
+    for type in $key_types
+    do
+        if [ -r "hosts/$1/ssh_host_${type}_key.pub" ]
+        then
+            echo "Signing host $1 $type key."
+            ssh-keygen -s CA -I "$1" -h -n "$1" \
+                "hosts/$1/ssh_host_${type}_key.pub"
+            local flag="not empty"
+        fi
+    done
+    [ -z "$flag" ] && echo "Didn't find any public keys for $1."
 }
 
 newhost () {
+    [ -z "$1" ] && error "You must specify hostname."
     echo "Creating new host $1 keypair."
     mkdir -p "hosts/$1"
     for type in "$key_types"
@@ -34,6 +68,7 @@ newhost () {
 }
 
 newuser () {
+    [ -z "$1" ] && error "You must specify username."
     echo "Creating new user $1 keypair."
     mkdir -p "users/$1"
     for type in "$key_types"
@@ -54,15 +89,19 @@ case "$1" in
         init
         ;;
     signuser)
+        is_initialized
         signuser "$2"
         ;;
     signhost)
+        is_initialized
         signhost "$2"
         ;;
     newhost)
+        is_initialized
         newhost "$2"
         ;;
     newuser)
+        is_initialized
         newuser "$2"
         ;;
     *)
