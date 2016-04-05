@@ -8,7 +8,7 @@ error () {
 [ $(which ssh-keygen) ] || \
     error "Can't find ssh-keygen. Is OpenSSH installed properly?"
 
-local key_types="dsa ecdsa ed25519 rsa"
+key_types="dsa ecdsa ed25519 rsa"
 
 usage () {
     echo "Usage: $0 init|newuser|newhost"
@@ -21,7 +21,7 @@ init () {
 }
 
 is_initialized () {
-    if [ ! -r "CA" ] || [ ! -r "CA.pub" ] || [ -d "users" ] || [ -d "hosts" ]
+    if [ ! -r "CA" ] || [ ! -r "CA.pub" ] || [ ! -d "users" ] || [ ! -d "hosts" ]
     then
         error "Something seems wrong. Did you run $0 init?"
     fi
@@ -38,7 +38,7 @@ signuser () {
             local flag="not empty"
         fi
     done
-    [ -z "$flag" ] && echo "Didn't find any public keys for $1."
+    [ -n "$flag" ] ||  echo "Didn't find any public keys for $1."
 }
 
 signhost () {
@@ -53,14 +53,14 @@ signhost () {
             local flag="not empty"
         fi
     done
-    [ -z "$flag" ] && echo "Didn't find any public keys for $1."
+    [ -n "$flag" ] || echo "Didn't find any public keys for $1."
 }
 
 newhost () {
     [ -z "$1" ] && error "You must specify hostname."
     echo "Creating new host $1 keypair."
     mkdir -p "hosts/$1"
-    for type in "$key_types"
+    for type in $key_types
     do
         ssh-keygen -qf "hosts/$1/ssh_host_${type}_key" -P "" -C "$1"
     done
@@ -69,10 +69,10 @@ newhost () {
 
 newuser () {
     [ -z "$1" ] && error "You must specify username."
-    echo "Creating new user $1 keypair."
     mkdir -p "users/$1"
-    for type in "$key_types"
+    for type in $key_types
     do
+        echo "Creating new user $1 $type keypair."
         ssh-keygen -qf "users/$1/id_${type}" -P "" -C "$1"
     done
     signuser "$1"

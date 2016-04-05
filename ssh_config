@@ -1,6 +1,0 @@
-Host test
-HostName localhost
-Port 22222
-IdentityFile users/%u
-UserKnownHostsFile known_hosts
-StrictHostKeyChecking yes

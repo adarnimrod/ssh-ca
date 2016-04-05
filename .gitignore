@@ -8,3 +8,4 @@ hosts/
 sshd.pid
 known_hosts
 sshd_config
+ssh_config
