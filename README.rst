@@ -9,26 +9,27 @@ Installation
 ------------
 .. code:: shell
 
-    git clone https://www.shore.co.il/cgit/ssh-ca
+    git clone https://www.shore.co.il/git/ssh-ca
     cd ssh-ca
     sudo make install
 
 Usage
 -----
 
-To start a new certificate authority
+To start a new certificate authority (creates an RSA keypair for signing
+purposes and hosts and users directories)
 
 .. code:: shell
 
     ssh-ca init
 
-To sign a user's public key
+To sign a user's public key (found under users/<username>/id_*.pub)
 
 .. code:: shell
 
     ssh-ca signuser username
 
-To sign a hosts's public key
+To sign a host's public key (found under hosts/<hostname>/ssh_host_*.pub)
 
 .. code:: shell
 
@@ -88,7 +89,7 @@ Development
 
 To ease development :code:`make clean`, :code:`make lint` and :code:`make test`
 are available. It's recommended to add :code:`make lint`  and :code:`make test`
-to to your Git pre-commit and pre-push hooks accourdingly. Also, this repo has
+to to your Git pre-commit and pre-push hooks accordingly. Also, this repo has
 `pre-commit <http://pre-commit.com/>`_ configured.
 
 License
@@ -103,9 +104,9 @@ Author
 Nimrod Adar, `contact me <nimrod@shore.co.il>`_ or visit my `website
 <https://www.shore.co.il/>`_. Patches are welcome via `git send-email
 <http://git-scm.com/book/en/v2/Git-Commands-Email>`_. The repository is located
-at: https://www.shore.co.il/cgit/.
+at: https://www.shore.co.il/git/.
 
 TODO
 ----
 
-- Generating RSA, DSA and ECDSA keys (especially for hosts).
+- Better, more thorough documentation.
