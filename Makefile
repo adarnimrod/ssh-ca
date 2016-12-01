@@ -1,8 +1,8 @@
-.PHONY: install clean test lint
+.PHONY: install test
 
 USERNAME = $$(whoami)
 
-test: lint clean ssh_config sshd_config CA CA.pub users/$(USERNAME) hosts/localhost known_hosts
+test: ssh_config sshd_config CA CA.pub users/$(USERNAME) hosts/localhost known_hosts
 	$$(PATH=$$PATH:/usr/local/sbin:/usr/sbin:/sbin which sshd) -f sshd_config
 	test "$$(ssh -F ssh_config test whoami)" = "$$USER"
 	kill $$(cat sshd.pid)
@@ -49,10 +49,3 @@ ssh_config:
 install:
 	cp ssl-ca /usr/local/bin/ssh-ca
 	chmod 755 /usr/local/bin/ssh-ca
-
-clean:
-	if [ -f sshd.pid ] && [ -d "/proc/$$(cat sshd.pid)" ]; then kill "$$(cat sshd.pid)"; fi
-	rm -rf CA CA.pub users hosts known_hosts sshd.pid sshd_config ssh_config
-
-lint:
-	/bin/sh -en ssh-ca

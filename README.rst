@@ -1,6 +1,9 @@
 SSH-CA
 ######
 
+.. image:: https://travis-ci.org/adarnimrod/ssh-ca.svg?branch=master
+    :target: https://travis-ci.org/adarnimrod/ssh-ca
+
 This utility assists in creating an SSH certificate authority. It aims to be
 production-ready and a secure solution for managing SSH key-pairs for both users
 and hosts.
@@ -87,10 +90,9 @@ Authenticating users
 Development
 -----------
 
-To ease development :code:`make clean`, :code:`make lint` and :code:`make test`
-are available. It's recommended to add :code:`make lint`  and :code:`make test`
-to to your Git pre-commit and pre-push hooks accordingly. Also, this repo has
-`pre-commit <http://pre-commit.com/>`_ configured.
+For testing run :code:`make test`. For cleaning temporary files run :code:`git
+clean -fdx`. You can use `pre-commit <http://pre-commit.com/>`_ to have the test
+(which is quite quick) run on every commit to ensure quality code.
 
 License
 -------
