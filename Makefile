@@ -1,6 +1,9 @@
-.PHONY: install test
+.PHONY: install test clean
 
 USERNAME = $$(whoami)
+
+clean:
+	git clean -fdx
 
 test: ssh_config sshd_config CA CA.pub users/$(USERNAME) hosts/localhost known_hosts
 	$$(PATH=$$PATH:/usr/local/sbin:/usr/sbin:/sbin which sshd) -f sshd_config

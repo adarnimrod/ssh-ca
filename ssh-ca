@@ -1,4 +1,5 @@
-#!/bin/sh -e
+#!/bin/sh
+set -eu
 
 error () {
     echo "$1"
