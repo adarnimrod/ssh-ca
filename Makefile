@@ -3,6 +3,7 @@
 USERNAME = $$(whoami)
 
 clean:
+	- kill $$(cat sshd.pid)
 	git clean -fdx
 
 test: ssh_config sshd_config CA CA.pub users/$(USERNAME) hosts/localhost known_hosts
