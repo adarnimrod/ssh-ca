@@ -1,0 +1,4 @@
+---
+include:
+  - project: shore/ci-templates
+    file: templates/bats.yml

@@ -6,7 +6,7 @@ error () {
     exit 1
 }
 
-[ $(which ssh-keygen) ] || \
+(which ssh-keygen) || \
     error "Can't find ssh-keygen. Is OpenSSH installed properly?"
 
 key_types="dsa ecdsa ed25519 rsa"
@@ -36,6 +36,7 @@ signuser () {
         then
             echo "Signing user $1 $type key."
             ssh-keygen -s CA -I "$1" -n "$1" "users/$1/id_${type}.pub"
+            # shellcheck disable=SC2039
             local flag="not empty"
         fi
     done
@@ -51,6 +52,7 @@ signhost () {
             echo "Signing host $1 $type key."
             ssh-keygen -s CA -I "$1" -h -n "$1" \
                 "hosts/$1/ssh_host_${type}_key.pub"
+            # shellcheck disable=SC2039
             local flag="not empty"
         fi
     done
