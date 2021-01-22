@@ -1,4 +1,6 @@
 ---
 include:
   - project: shore/ci-templates
+    file: templates/pre-commit.yml
+  - project: shore/ci-templates
     file: templates/bats.yml
