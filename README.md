@@ -31,7 +31,7 @@ ssh-ca signuser username
 ```
 
 To sign a host's public key (found under
-hosts/\<hostname>/[ssh\_host](<>)\*.pub)
+hosts/\<hostname>/[ssh_host](<>)\*.pub)
 
 ```shell
 ssh-ca signhost hostname
@@ -60,7 +60,7 @@ ssh-ca newuser username
    HostCertificate /path/to/the/signed/public/key
    ```
 
-1. Add a line to your known\_hosts file to authorize signed public keys
+1. Add a line to your known_hosts file to authorize signed public keys
    to a specific top level domain. For example if your domain is
    example.com and the contents of `CA.pub` is:
 
@@ -74,7 +74,7 @@ Then the line will be:
 @cert-authority *.example.com ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC2fAkeidfnPn712B4uW3XhKyFt9FcJtVwSPKDSCykULg3X5gVV/Xa1yb4ameY3ihXOqQOlG3YpYnOQ8KdM67WtnERVbTJIfieRjGzoURz9NquLFXSKsuQrXMWRNHqXAHw7VirPvKL4cSc4l00Az1HDnHhMIclPY8G+8SkRIRsTwwwa5QjGF2wuhC6j5UHJSaF7qLFw9FSaCsEJTkQxtCD4+Rd/dxv3kVWSkm5DbNG0z3QHyISW7XDvyXP+1ccSb5+IWC0yQCT4OJNFUMDb+SdD7AzDHfI9Z5zTp56uGV23lywWhSvv20UPA0SyXJNGPOw7uJ1ak8q4SBh60PtOENQf ssh-ca
 ```
 
-\#. You can also add it system wide by adding the above line to
+#. You can also add it system wide by adding the above line to
 `/etc/ssh/ssh_known_hosts` and the following line to your
 `ssh_config` file:
 
@@ -82,7 +82,7 @@ Then the line will be:
 GlobalKnownHostsFile /etc/ssh/ssh_known_hosts
 ```
 
-1. For strict security, add the following line to you ssh\_config file:
+1. For strict security, add the following line to you ssh_config file:
 
    ```
    StrictHostKeyChecking yes
