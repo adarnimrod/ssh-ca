@@ -19,13 +19,6 @@ repos:
     hooks:
       - id: yamllint
 
-  - repo: https://github.com/amperser/proselint/
-    rev: 0.10.2
-    hooks:
-      - id: proselint
-        types: [plain-text]
-        exclude: LICENSE
-
   - repo: https://github.com/executablebooks/mdformat.git
     rev: 0.7.9
     hooks:
